@@ -46,3 +46,11 @@ skills-lock.json
 .claude/scripts/__pycache__/
 .claude/ui-ux-pro-max/scripts/__pycache__/
 .claude/
+
+# Playwright
+node_modules/
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
+/playwright/.auth/
