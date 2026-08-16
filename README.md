@@ -109,18 +109,22 @@ Open [http://localhost:3000](http://localhost:3000).
 End-to-end tests run on [Playwright](https://playwright.dev), against
 `chromium`, `firefox`, and `webkit`. The suite currently covers:
 
-- a homepage smoke test (`tests/smoke.spec.ts`)
+- a logged-out homepage smoke test (`tests/smoke.spec.ts`)
 - auth coverage for login, logout, and protected-route redirects (`tests/auth.spec.ts`)
+- authenticated smoke for `/leads`, `/search`, and `/settings` (`tests/app.spec.ts`)
 
-Auth session tests need a dedicated Supabase Auth user. Copy the template
+Auth session tests and authenticated smoke need a dedicated Supabase Auth user. Copy the template
 and fill in those credentials:
 
 ```bash
 cp .env.test.example .env.test
 ```
 
-Without `.env.test`, the unauthenticated cases still run; the sign-in and
-sign-out tests skip.
+Playwright logs in once via `tests/auth.setup.ts` and reuses that session for `tests/app.spec.ts`.
+`tests/auth.spec.ts` and `tests/smoke.spec.ts` start logged out.
+
+Without `.env.test`, the unauthenticated cases still run; sign-in, sign-out, and authenticated
+smoke skip.
 
 ```bash
 npx playwright install   # first run only, installs browser binaries
