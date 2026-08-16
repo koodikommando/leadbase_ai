@@ -130,6 +130,12 @@ npm test                 # starts the dev server and runs the suite
 `playwright.config.ts` boots `npm run dev` and waits on
 `http://localhost:3000` automatically, so a separate dev server isn't
 required. Tests also run in CI via `.github/workflows/playwright.yml`.
+Add these GitHub Actions secrets so session tests don't skip:
+
+- `NEXT_PUBLIC_SUPABASE_URL`
+- `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`
+- `TEST_USER_EMAIL`
+- `TEST_USER_PASSWORD`
 
 ## What's implemented vs. what was tried and dropped
 
