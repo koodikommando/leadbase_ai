@@ -1,4 +1,4 @@
-import { test, expect, type Page } from '@playwright/test';
+import { test, expect, type Locator, type Page } from '@playwright/test';
 
 const PROTECTED_PATHS = ['/', '/leads', '/search', '/settings'] as const;
 
@@ -18,8 +18,15 @@ async function fillCredentials(
   email: string,
   password: string
 ): Promise<void> {
-  await page.getByPlaceholder('EMAIL').fill(email);
-  await page.getByPlaceholder('PASSWORD').fill(password);
+  await fillControlledInput(page.getByPlaceholder('EMAIL'), email);
+  await fillControlledInput(page.getByPlaceholder('PASSWORD'), password);
+  await expect(page.getByRole('button', { name: 'SIGN IN' })).toBeEnabled();
+}
+
+async function fillControlledInput(input: Locator, value: string): Promise<void> {
+  await input.click();
+  await input.clear();
+  await input.pressSequentially(value);
 }
 
 async function signIn(page: Page, email: string, password: string): Promise<void> {
