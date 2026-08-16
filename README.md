@@ -112,19 +112,20 @@ End-to-end tests run on [Playwright](https://playwright.dev), against
 - a logged-out homepage smoke test (`tests/smoke.spec.ts`)
 - auth coverage for login, logout, and protected-route redirects (`tests/auth.spec.ts`)
 - authenticated smoke for `/leads`, `/search`, and `/settings` (`tests/app.spec.ts`)
+- Chromium-only company-name search against live Apollo.io (`tests/search.spec.ts`)
 
-Auth session tests and authenticated smoke need a dedicated Supabase Auth user. Copy the template
+Auth session tests, authenticated smoke, and search need a dedicated Supabase Auth user. Copy the template
 and fill in those credentials:
 
 ```bash
 cp .env.test.example .env.test
 ```
 
-Playwright logs in once via `tests/auth.setup.ts` and reuses that session for `tests/app.spec.ts`.
-`tests/auth.spec.ts` and `tests/smoke.spec.ts` start logged out.
+Playwright logs in once via `tests/auth.setup.ts` and reuses that session for `tests/app.spec.ts`
+and `tests/search.spec.ts`. `tests/auth.spec.ts` and `tests/smoke.spec.ts` start logged out.
 
 Without `.env.test`, the unauthenticated cases still run; sign-in, sign-out, and authenticated
-smoke skip.
+smoke skip. Search needs the same saved session (and a working Apollo key in Supabase).
 
 ```bash
 npx playwright install   # first run only, installs browser binaries
