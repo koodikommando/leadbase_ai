@@ -52,14 +52,14 @@ interactivity is required. All lead scoring returns a fixed JSON contract
 
 ```bash
 npm install
-cp .env.local.example .env.local
+cp .env.example .env
 ```
 
 ### 2. Create a Supabase project
 
 Create a project at [supabase.com](https://supabase.com), then from
 **Project Settings → API** copy the project URL and publishable (anon) key
-into `.env.local`:
+into `.env`:
 
 ```
 NEXT_PUBLIC_SUPABASE_URL=https://<project-id>.supabase.co
@@ -79,7 +79,7 @@ This applies `supabase/migrations/001` through `007` in order.
 
 ### 4. Set edge function secrets
 
-The Claude and Apollo API keys live only in Supabase — never in `.env.local`:
+The Claude and Apollo API keys live only in Supabase — never in `.env`:
 
 ```bash
 supabase secrets set ANTHROPIC_API_KEY=sk-ant-...
@@ -107,8 +107,20 @@ Open [http://localhost:3000](http://localhost:3000).
 ## Testing
 
 End-to-end tests run on [Playwright](https://playwright.dev), against
-`chromium`, `firefox`, and `webkit`. The suite currently covers a homepage
-smoke test (`tests/smoke.spec.ts`); more coverage is being added over time.
+`chromium`, `firefox`, and `webkit`. The suite currently covers:
+
+- a homepage smoke test (`tests/smoke.spec.ts`)
+- auth coverage for login, logout, and protected-route redirects (`tests/auth.spec.ts`)
+
+Auth session tests need a dedicated Supabase Auth user. Copy the template
+and fill in those credentials:
+
+```bash
+cp .env.test.example .env.test
+```
+
+Without `.env.test`, the unauthenticated cases still run; the sign-in and
+sign-out tests skip.
 
 ```bash
 npx playwright install   # first run only, installs browser binaries
