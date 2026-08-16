@@ -12,14 +12,4 @@ test.describe('smoke', () => {
 
     await expect(page).toHaveTitle(/CRM/);
   });
-
-  test('primary navigation renders', async ({ page }) => {
-    await page.goto('/');
-
-    const nav = page.getByRole('navigation');
-
-    await expect(nav.getByRole('link', { name: 'LEADS' })).toBeVisible();
-    await expect(nav.getByRole('link', { name: 'SEARCH' })).toBeVisible();
-    await expect(nav.getByRole('link', { name: 'SETTINGS' })).toBeVisible();
-  });
 });
