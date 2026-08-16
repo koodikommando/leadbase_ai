@@ -104,6 +104,21 @@ npm run dev
 
 Open [http://localhost:3000](http://localhost:3000).
 
+## Testing
+
+End-to-end tests run on [Playwright](https://playwright.dev), against
+`chromium`, `firefox`, and `webkit`. The suite currently covers a homepage
+smoke test (`tests/smoke.spec.ts`); more coverage is being added over time.
+
+```bash
+npx playwright install   # first run only, installs browser binaries
+npm test                 # starts the dev server and runs the suite
+```
+
+`playwright.config.ts` boots `npm run dev` and waits on
+`http://localhost:3000` automatically, so a separate dev server isn't
+required. Tests also run in CI via `.github/workflows/playwright.yml`.
+
 ## What's implemented vs. what was tried and dropped
 
 **Implemented and working end-to-end:**
@@ -115,7 +130,3 @@ Open [http://localhost:3000](http://localhost:3000).
 
 **Tried and deliberately dropped — not an unfinished feature:**
 - **pgvector / embedding-based similarity search.** Early versions of the schema included `embedding` columns on `leads` and `icp_profiles`, intended for vector similarity matching between leads and the ICP. In practice, the embedding-generation step was never wired into the enrichment pipeline, no similarity query (`<=>`, `<->`, or an RPC) was ever written, and the columns were never read. Rather than leave dead schema around, `supabase/migrations/007_drop_vector_infra.sql` removes both embedding columns and the `pgvector` extension outright. Lead-to-ICP matching in this project is done via the Claude-based scoring pipeline (`save-enriched-lead`) instead — a decision to keep one enrichment path rather than maintain two, not a cut corner.
-
-## License
-
-MIT — see [LICENSE](./LICENSE).
