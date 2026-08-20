@@ -25,19 +25,30 @@ export default defineConfig({
       name: 'chromium',
       use: { ...devices['Desktop Chrome'], storageState: AUTH_FILE },
       dependencies: ['setup'],
-      testIgnore: /auth\.setup\.ts/,
+      testIgnore: [/auth\.setup\.ts/, /\.live\.spec\.ts$/],
     },
     {
       name: 'firefox',
       use: { ...devices['Desktop Firefox'], storageState: AUTH_FILE },
       dependencies: ['setup'],
-      testIgnore: /auth\.setup\.ts/,
+      testIgnore: [/auth\.setup\.ts/, /\.live\.spec\.ts$/],
     },
     {
       name: 'webkit',
       use: { ...devices['Desktop Safari'], storageState: AUTH_FILE },
       dependencies: ['setup'],
-      testIgnore: /auth\.setup\.ts/,
+      testIgnore: [/auth\.setup\.ts/, /\.live\.spec\.ts$/],
+    },
+    // Hits the real Apollo.io API. `testIgnore` above keeps chromium/firefox/webkit
+    // from ever picking up *.live.spec.ts, but Playwright still runs every project
+    // listed here when no --project flag is passed — so callers must opt in with
+    // `npx playwright test --project=live` (see package.json's "test:live" script)
+    // rather than relying on this project being skipped by default.
+    {
+      name: 'live',
+      use: { ...devices['Desktop Chrome'], storageState: AUTH_FILE },
+      dependencies: ['setup'],
+      testMatch: /\.live\.spec\.ts$/,
     },
   ],
   webServer: {

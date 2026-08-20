@@ -112,7 +112,7 @@ End-to-end tests run on [Playwright](https://playwright.dev), against
 - a logged-out homepage smoke test (`tests/smoke.spec.ts`)
 - auth coverage for login, logout, and protected-route redirects (`tests/auth.spec.ts`)
 - authenticated smoke for `/leads`, `/search`, and `/settings` (`tests/app.spec.ts`)
-- Chromium-only company-name search against live Apollo.io (`tests/search.spec.ts`)
+- company-name search against a mocked Apollo.io response (`tests/search.spec.ts`)
 
 Auth session tests, authenticated smoke, and search need a dedicated Supabase Auth user. Copy the template
 and fill in those credentials:
@@ -125,7 +125,8 @@ Playwright logs in once via `tests/auth.setup.ts` and reuses that session for `t
 and `tests/search.spec.ts`. `tests/auth.spec.ts` and `tests/smoke.spec.ts` start logged out.
 
 Without `.env.test`, the unauthenticated cases still run; sign-in, sign-out, and authenticated
-smoke skip. Search needs the same saved session (and a working Apollo key in Supabase).
+smoke skip. Search needs the same saved session; only the live search test
+(`tests/search.live.spec.ts`, see below) also needs a working Apollo key in Supabase.
 
 ```bash
 npx playwright install   # first run only, installs browser binaries
@@ -141,6 +142,19 @@ Add these GitHub Actions secrets so session tests don't skip:
 - `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`
 - `TEST_USER_EMAIL`
 - `TEST_USER_PASSWORD`
+
+CI runs two gated jobs on every push and PR: `checks` (`tsc --noEmit` plus
+`npm run lint`) must pass before `e2e` starts, so a type or lint error is
+caught before the suite spends time booting a browser and dev server.
+
+The default suite never depends on live third-party APIs. `tests/search.spec.ts`
+mocks the Apollo.io call with Playwright's `page.route()` against a fixture in
+`tests/fixtures/`, so `npm test` stays fast, deterministic, and unaffected by
+Apollo rate limits or downtime. `tests/search.live.spec.ts` hits the real
+Apollo API instead — it's isolated as its own Playwright project, run
+separately with `npm run test:live`, and in CI it's a non-blocking `e2e-live`
+job (`continue-on-error: true`) so it can catch real API/contract drift
+without ever blocking a PR.
 
 ## What's implemented vs. what was tried and dropped
 

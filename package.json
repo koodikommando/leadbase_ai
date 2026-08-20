@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "eslint",
     "typecheck": "tsc --noEmit",
-    "test": "playwright test"
+    "test": "playwright test --project=chromium --project=firefox --project=webkit",
+    "test:live": "playwright test --project=live"
   },
   "dependencies": {
     "@supabase/ssr": "^0.10.2",
