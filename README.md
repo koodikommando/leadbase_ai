@@ -113,6 +113,8 @@ End-to-end tests run on [Playwright](https://playwright.dev), against
 - auth coverage for login, logout, and protected-route redirects (`tests/e2e/auth.spec.ts`)
 - authenticated smoke for `/leads`, `/search`, and `/settings` (`tests/e2e/app.spec.ts`)
 - company-name search against a mocked Apollo.io response (`tests/e2e/search.spec.ts`)
+- the full search → enrich → save → `/leads` flow, with Apollo, Claude scoring, and the
+  leads list all mocked (`tests/e2e/enrichment.spec.ts`)
 
 Auth session tests, authenticated smoke, and search need a dedicated Supabase Auth user. Copy the template
 and fill in those credentials:
@@ -155,6 +157,13 @@ Apollo API instead — it's isolated as its own Playwright project, run
 separately with `npm run test:live`, and in CI it's a non-blocking `e2e-live`
 job (`continue-on-error: true`) so it can catch real API/contract drift
 without ever blocking a PR.
+
+This app's inputs are visible in the SSR-rendered DOM before React hydration
+attaches their `onChange` listeners, so interacting immediately after
+`page.goto()` can race hydration — most visible on WebKit's automation
+driver. `waitForHydration()` (`tests/helpers/dom.ts`) waits for the page to
+go network-idle right after navigation, before any fill or click, so this is
+an explicit wait rather than an incidental one.
 
 ## What's implemented vs. what was tried and dropped
 

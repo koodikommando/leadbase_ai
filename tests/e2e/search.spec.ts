@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 import { hasTestUser } from '../helpers/auth';
-import { fillControlledInput } from '../helpers/dom';
+import { waitForHydration } from '../helpers/dom';
 import apolloSearchFacebookFixture from '../fixtures/apollo-search-facebook.json';
 
 test.describe('search', () => {
@@ -20,7 +20,8 @@ test.describe('search', () => {
     });
 
     await page.goto('/search');
-    await fillControlledInput(page.getByPlaceholder('SEARCH BY COMPANY NAME'), 'Facebook');
+    await waitForHydration(page);
+    await page.getByPlaceholder('SEARCH BY COMPANY NAME').fill('Facebook');
     await page.getByRole('button', { name: 'EXECUTE' }).click();
 
     await expect(page.getByRole('heading', { name: 'Facebook', exact: true })).toBeVisible();
