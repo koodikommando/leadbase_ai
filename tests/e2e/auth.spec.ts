@@ -64,6 +64,9 @@ test.describe('auth', () => {
   });
 
   test.describe('session', () => {
+    // These cases all sign in against the one shared TEST_USER_EMAIL/PASSWORD
+    // account. Running them in parallel would race concurrent logins against
+    // that same account, so serial mode avoids that.
     test.describe.configure({ mode: 'serial' });
 
     test.beforeEach(() => {
