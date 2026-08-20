@@ -1,0 +1,12 @@
+{
+  "id": "b7e2a1c4-9f3d-4b6e-8a1f-2c5d6e7f8901",
+  "name": "Acme Robotics",
+  "domain": "acmerobotics.com",
+  "industry": "Industrial Automation",
+  "employee_count": 120,
+  "country": "Finland",
+  "city": "Helsinki",
+  "client_notes": "Renewed twice, fast sales cycle, champions our product internally.",
+  "is_client": true,
+  "created_at": "2026-01-14T09:30:00.000Z"
+}
