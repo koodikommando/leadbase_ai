@@ -109,10 +109,10 @@ Open [http://localhost:3000](http://localhost:3000).
 End-to-end tests run on [Playwright](https://playwright.dev), against
 `chromium`, `firefox`, and `webkit`. The suite currently covers:
 
-- a logged-out homepage smoke test (`tests/smoke.spec.ts`)
-- auth coverage for login, logout, and protected-route redirects (`tests/auth.spec.ts`)
-- authenticated smoke for `/leads`, `/search`, and `/settings` (`tests/app.spec.ts`)
-- company-name search against a mocked Apollo.io response (`tests/search.spec.ts`)
+- a logged-out homepage smoke test (`tests/e2e/smoke.spec.ts`)
+- auth coverage for login, logout, and protected-route redirects (`tests/e2e/auth.spec.ts`)
+- authenticated smoke for `/leads`, `/search`, and `/settings` (`tests/e2e/app.spec.ts`)
+- company-name search against a mocked Apollo.io response (`tests/e2e/search.spec.ts`)
 
 Auth session tests, authenticated smoke, and search need a dedicated Supabase Auth user. Copy the template
 and fill in those credentials:
@@ -121,12 +121,12 @@ and fill in those credentials:
 cp .env.test.example .env.test
 ```
 
-Playwright logs in once via `tests/auth.setup.ts` and reuses that session for `tests/app.spec.ts`
-and `tests/search.spec.ts`. `tests/auth.spec.ts` and `tests/smoke.spec.ts` start logged out.
+Playwright logs in once via `tests/e2e/auth.setup.ts` and reuses that session for `tests/e2e/app.spec.ts`
+and `tests/e2e/search.spec.ts`. `tests/e2e/auth.spec.ts` and `tests/e2e/smoke.spec.ts` start logged out.
 
 Without `.env.test`, the unauthenticated cases still run; sign-in, sign-out, and authenticated
 smoke skip. Search needs the same saved session; only the live search test
-(`tests/search.live.spec.ts`, see below) also needs a working Apollo key in Supabase.
+(`tests/e2e/search.live.spec.ts`, see below) also needs a working Apollo key in Supabase.
 
 ```bash
 npx playwright install   # first run only, installs browser binaries
@@ -147,10 +147,10 @@ CI runs two gated jobs on every push and PR: `checks` (`tsc --noEmit` plus
 `npm run lint`) must pass before `e2e` starts, so a type or lint error is
 caught before the suite spends time booting a browser and dev server.
 
-The default suite never depends on live third-party APIs. `tests/search.spec.ts`
+The default suite never depends on live third-party APIs. `tests/e2e/search.spec.ts`
 mocks the Apollo.io call with Playwright's `page.route()` against a fixture in
 `tests/fixtures/`, so `npm test` stays fast, deterministic, and unaffected by
-Apollo rate limits or downtime. `tests/search.live.spec.ts` hits the real
+Apollo rate limits or downtime. `tests/e2e/search.live.spec.ts` hits the real
 Apollo API instead — it's isolated as its own Playwright project, run
 separately with `npm run test:live`, and in CI it's a non-blocking `e2e-live`
 job (`continue-on-error: true`) so it can catch real API/contract drift

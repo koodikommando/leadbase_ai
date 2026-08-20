@@ -4,7 +4,7 @@ import {
   getTestUser,
   hideNextDevOverlay,
   signIn,
-} from './helpers/auth';
+} from '../helpers/auth';
 
 test.use({ storageState: { cookies: [], origins: [] } });
 

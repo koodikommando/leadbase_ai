@@ -5,7 +5,7 @@ import {
   hasTestUser,
   signIn,
   writeEmptyAuthFile,
-} from './helpers/auth';
+} from '../helpers/auth';
 
 setup('authenticate', async ({ page }) => {
   if (!hasTestUser()) {

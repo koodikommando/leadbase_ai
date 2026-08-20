@@ -6,7 +6,7 @@ import { AUTH_FILE } from './tests/helpers/auth';
 dotenv.config({ path: path.resolve(__dirname, '.env.test') });
 
 export default defineConfig({
-  testDir: './tests',
+  testDir: './tests/e2e',
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 2 : 0,

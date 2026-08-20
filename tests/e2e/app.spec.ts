@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test';
-import { hasTestUser } from './helpers/auth';
+import { hasTestUser } from '../helpers/auth';
 
 test.describe('app', () => {
   test.beforeEach(() => {

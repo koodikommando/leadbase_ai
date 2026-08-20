@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
-import { hasTestUser } from './helpers/auth';
-import apolloSearchFacebookFixture from './fixtures/apollo-search-facebook.json';
+import { hasTestUser } from '../helpers/auth';
+import apolloSearchFacebookFixture from '../fixtures/apollo-search-facebook.json';
 
 test.describe('search', () => {
   test.beforeEach(() => {
