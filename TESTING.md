@@ -28,6 +28,13 @@ under `tests/fixtures/`:
   used by `tests/e2e/enrichment.spec.ts` (which also mocks the `leads`
   PostgREST `GET` so the saved lead renders on `/leads` without touching a
   real database row).
+- `tests/fixtures/client-acme.json` and `tests/fixtures/client-existing.json`
+  — client-base records, used by `tests/e2e/client-base.spec.ts`, which
+  mocks the `save-client` edge function and the `companies` PostgREST
+  `GET`/`DELETE` endpoints (add, add-to-existing-list, server-rejection, and
+  delete cases). Form-filling for that suite goes through
+  `tests/helpers/client.ts`'s `fillClientForm`/`fillAndSubmitClientForm`
+  rather than repeating the field-by-field fill in each test.
 
 This keeps `npm test` fast, deterministic, and free of live-API flakiness —
 no Apollo rate limits, no Claude cost or latency, no dependence on either
@@ -84,7 +91,8 @@ on a PR.
 `tests/helpers/dom.ts` exports `waitForHydration(page)`, which calls
 `page.waitForLoadState('networkidle')`. It's called right after `page.goto()`,
 before any `fill()` or click, in `tests/helpers/auth.ts`'s `fillCredentials`
-and directly in `search.spec.ts`/`enrichment.spec.ts`.
+and directly in `search.spec.ts`, `enrichment.spec.ts`, and
+`client-base.spec.ts`.
 
 This app's inputs are visible and interactable in the SSR-rendered HTML
 before React hydration has attached their `onChange` listeners. Interacting

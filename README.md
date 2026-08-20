@@ -115,6 +115,11 @@ End-to-end tests run on [Playwright](https://playwright.dev), against
 - company-name search against a mocked Apollo.io response (`tests/e2e/search.spec.ts`)
 - the full search → enrich → save → `/leads` flow, with Apollo, Claude scoring, and the
   leads list all mocked (`tests/e2e/enrichment.spec.ts`)
+- adding, deleting, and validating clients in the client base — including a mocked
+  server-rejection case (`tests/e2e/client-base.spec.ts`)
+
+See [TESTING.md](TESTING.md) for the reasoning behind the mocking strategy, the auth
+pattern, CI structure, and the hydration wait.
 
 Auth session tests, authenticated smoke, and search need a dedicated Supabase Auth user. Copy the template
 and fill in those credentials:
