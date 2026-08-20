@@ -1,0 +1,19 @@
+{
+  "success": true,
+  "lead_id": "b3f1c9d2-4e3a-4c9b-9e21-7a2f6d1b5c33",
+  "company_id": "a1e2d3c4-5f6b-4a7c-8d9e-0f1a2b3c4d5e",
+  "enrichment": {
+    "lead_score": 82,
+    "icp_fit": "high",
+    "ai_summary": "Facebook is a large, well-established internet company with strong brand recognition and a mature marketing technology stack, indicating budget availability and sophistication for enterprise tooling.",
+    "signals": [
+      "85,000+ employees indicates a large sales and marketing organization",
+      "Uses Google Analytics, AWS, and Cloudflare, showing active investment in a modern tech stack",
+      "Headquartered in Menlo Park, a major B2B tech hub with strong buyer density"
+    ],
+    "concerns": [
+      "At this scale, procurement cycles are likely to be long and require multiple stakeholders"
+    ],
+    "outreach_angle": "Reference Facebook's scale and existing AWS/Cloudflare stack to position outreach around infrastructure-level tooling gaps."
+  }
+}
