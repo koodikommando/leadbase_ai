@@ -2,6 +2,7 @@ import { test, expect } from '@playwright/test';
 import {
   fillCredentials,
   getTestUser,
+  hasTestUser,
   hideNextDevOverlay,
   signIn,
 } from '../helpers/auth';
@@ -46,7 +47,7 @@ test.describe('auth', () => {
 
     test('rejects sign-up for an existing email', async ({ page }) => {
       test.skip(
-        !process.env.TEST_USER_EMAIL || !process.env.TEST_USER_PASSWORD,
+        !hasTestUser(),
         'TEST_USER_EMAIL and TEST_USER_PASSWORD must be set in .env.test'
       );
 
@@ -71,7 +72,7 @@ test.describe('auth', () => {
 
     test.beforeEach(() => {
       test.skip(
-        !process.env.TEST_USER_EMAIL || !process.env.TEST_USER_PASSWORD,
+        !hasTestUser(),
         'TEST_USER_EMAIL and TEST_USER_PASSWORD must be set in .env.test'
       );
     });
