@@ -32,7 +32,17 @@ test.describe('client base', () => {
 
     await expect(page.getByText('NO CLIENTS ADDED')).toBeVisible();
 
-    await fillAndSubmitClientForm(page, clientFixture);
+    const requestBody = await fillAndSubmitClientForm(page, clientFixture);
+
+    expect(requestBody).toEqual({
+      name: clientFixture.name,
+      domain: clientFixture.domain,
+      industry: clientFixture.industry,
+      employee_count: clientFixture.employee_count,
+      country: clientFixture.country,
+      city: clientFixture.city,
+      client_notes: clientFixture.client_notes,
+    });
 
     const addedRow = page.getByRole('row', { name: 'Acme Robotics' });
     await expect(addedRow).toBeVisible();
@@ -71,7 +81,17 @@ test.describe('client base', () => {
     await expect(existingRow).toBeVisible();
     await expect(existingRow.getByRole('cell', { name: 'Fashion & Streetwear' })).toBeVisible();
 
-    await fillAndSubmitClientForm(page, clientFixture);
+    const requestBody = await fillAndSubmitClientForm(page, clientFixture);
+
+    expect(requestBody).toEqual({
+      name: clientFixture.name,
+      domain: clientFixture.domain,
+      industry: clientFixture.industry,
+      employee_count: clientFixture.employee_count,
+      country: clientFixture.country,
+      city: clientFixture.city,
+      client_notes: clientFixture.client_notes,
+    });
 
     // Both the pre-existing client and the newly added one are visible
     const addedRow = page.getByRole('row', { name: 'Acme Robotics' });

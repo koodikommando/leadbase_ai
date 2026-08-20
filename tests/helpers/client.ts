@@ -21,10 +21,14 @@ export async function fillClientForm(page: Page, client: ClientFormValues): Prom
 }
 
 // Fills the client-base form, submits it, and asserts the save succeeded.
-// Mocks **/functions/v1/save-client itself so callers don't need to. For a
-// test that needs a different mocked response (e.g. a server-rejection
+// Mocks **/functions/v1/save-client itself so callers don't need to, and
+// returns the captured request body so callers can assert on it themselves.
+// For a test that needs a different mocked response (e.g. a server-rejection
 // case), use fillClientForm directly and register your own route instead.
-export async function fillAndSubmitClientForm(page: Page, client: ClientFormValues): Promise<void> {
+export async function fillAndSubmitClientForm(
+  page: Page,
+  client: ClientFormValues
+): Promise<ClientFormValues> {
   let requestBody: unknown;
 
   await page.route('**/functions/v1/save-client', async (route) => {
@@ -37,13 +41,5 @@ export async function fillAndSubmitClientForm(page: Page, client: ClientFormValu
 
   await expect(page.getByText('CLIENT ADDED')).toBeVisible();
 
-  expect(requestBody).toEqual({
-    name: client.name,
-    domain: client.domain,
-    industry: client.industry,
-    employee_count: client.employee_count,
-    country: client.country,
-    city: client.city,
-    client_notes: client.client_notes,
-  });
+  return requestBody as ClientFormValues;
 }
