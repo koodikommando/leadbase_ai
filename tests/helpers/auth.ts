@@ -1,6 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
-import { expect, type Locator, type Page } from '@playwright/test';
+import { expect, type Page } from '@playwright/test';
+import { fillControlledInput } from './dom';
 
 export const AUTH_FILE = path.join(__dirname, '../../playwright/.auth/user.json');
 
@@ -32,12 +33,6 @@ export async function fillCredentials(
   await fillControlledInput(page.getByPlaceholder('EMAIL'), email);
   await fillControlledInput(page.getByPlaceholder('PASSWORD'), password);
   await expect(page.getByRole('button', { name: 'SIGN IN' })).toBeEnabled();
-}
-
-async function fillControlledInput(input: Locator, value: string): Promise<void> {
-  await input.click();
-  await input.clear();
-  await input.pressSequentially(value);
 }
 
 export async function signIn(page: Page, email: string, password: string): Promise<void> {
